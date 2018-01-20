@@ -28,6 +28,10 @@ public class UserServlets extends HttpServlet {
 			signUp(resp,req.getParameter("email"),req.getParameter("login"),req.getParameter("password"));
 		}
    }
+	private boolean isSignedUp(String email, String login)
+	{
+		return !(userdb.findUserByEmail(email)==null && userdb.findUserByLogin(login)==null);
+	}	
 	private void signUp(HttpServletResponse resp,String email, String login, String password)throws ServletException, IOException
 	{				
 		if(isSignedUp(email,login)){
@@ -38,23 +42,7 @@ public class UserServlets extends HttpServlet {
 			createResponseSite(resp,"Gratulacje, jesteś już zarejestrowany! :)" );
 		}
 	}
-	private boolean isSignedUp(String email, String login)
-	{
-		return !(userdb.findUserByEmail(email)==null && userdb.findUserByLogin(login)==null);
-	}
-	private void logIn(HttpServletRequest req,HttpServletResponse resp, String login, String password)throws ServletException, IOException
-	{
-		if(loginPasswordCorrect(login,password))
-		{
-			HttpSession session=req.getSession();  
-			session.setAttribute("login",login);  
-			createResponseSite(resp,"Witaj!"+ login );
-		}
-		else
-		{	
-			createResponseSite(resp,"email lub login zajęty","Wróć do strony głównej i spróbuj ponownie.");
-		}
-	}
+
 	private boolean isLoggedIn(HttpServletRequest req,String login)//isnt tested
 	{
 		HttpSession session=req.getSession();  
@@ -64,6 +52,20 @@ public class UserServlets extends HttpServlet {
 	{
 		return userdb.loginPasswordCorrect(login,password);
 	}
+	private void logIn(HttpServletRequest req,HttpServletResponse resp, String login, String password)throws ServletException, IOException
+	{
+		if(loginPasswordCorrect(login,password))
+		{
+			HttpSession session=req.getSession();  
+			session.setAttribute("login",login);
+			createResponseSite(resp,"Witaj!"+ login );
+		}
+		else
+		{	
+			createResponseSite(resp,"email lub login zajęty","Wróć do strony głównej i spróbuj ponownie.");
+		}
+	}
+	
 	private void createResponseSite(HttpServletResponse resp,String str1,String str2,String str3) throws IOException 
 	{
 		try (PrintWriter out = resp.getWriter()) {
