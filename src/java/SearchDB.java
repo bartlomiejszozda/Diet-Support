@@ -42,7 +42,7 @@ public ArrayList<TableObject> searchProductByName(String name)throws IOException
 				while(rs.next()){
 					Product tmp= new Product(rs.getInt("idProdukt"),rs.getString("nazwa"),
 							  rs.getDouble("kcal"),rs.getDouble("bialko"),
-							  rs.getDouble("weglowodany"),rs.getDouble("tluszcze"));
+							  rs.getDouble("weglowodany"),rs.getDouble("tluszcze"),0);
 					
 					output.add(tmp);
 					}
@@ -79,7 +79,7 @@ public ArrayList<TableObject> searchProductByName(String name)throws IOException
 						ingrArrTmp.add(ingr);
 						nextFlag=rs.next();
 					}
-					Meal mealTmp=new Meal(idPosilek,namePosilek,ingrArrTmp);
+					Meal mealTmp=new Meal(idPosilek,namePosilek,ingrArrTmp,0);
 					output.add(mealTmp);
 				}
             return output;
@@ -114,7 +114,7 @@ public ArrayList<TableObject> searchProductByName(String name)throws IOException
 						ingrArrTmp.add(ingr);
 						nextFlag=rs.next();
 					}
-					Meal mealTmp=new Meal(idPosilek,namePosilek,ingrArrTmp);
+					Meal mealTmp=new Meal(idPosilek,namePosilek,ingrArrTmp,0);
 					output.add(mealTmp);
 				}
             return output;

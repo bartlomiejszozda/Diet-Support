@@ -821,4 +821,36 @@ select * from MasaCIala;
 /////////////////////zmieniamy tabele mojecele
 alter table MojeCele ADD Column Uzytkownik_idUzytkownik Integer References Uzytkownik(idUzytkownik);
 
+ALTER TABLE Produkt ADD UNIQUE (nazwa);
+ALTER TABLE Posilek ADD UNIQUE (nazwa);
+ALTER TABLE DzienZywienia ADD UNIQUE (kiedy);
+ALTER TABLE Uzytkownik ADD UNIQUE (email);
+ALTER TABLE Uzytkownik ADD UNIQUE (login);
+ALTER TABLE MojeCele ADD UNIQUE (Uzytkownik_idUzytkownik);
 
+
+
+//////////////////////////////////////////////
+
+delete  from MasaCiala ;
+delete  from MojeCele ;
+delete  from DzienZywienia_has_Posilek ;
+delete  from DzienZywienia ;
+delete  from MojePosilki ;
+delete  from MojeProdukty ;
+delete  from Posilek_has_Produkt ;
+delete  from  Posilek ;
+delete  from Produkt ;
+delete  from  Uzytkownik ;
+
+
+ALTER TABLE Produkt ADD UNIQUE (nazwa);
+ALTER TABLE Posilek ADD UNIQUE (nazwa);
+ALTER TABLE DzienZywienia ADD UNIQUE (kiedy);
+ALTER TABLE Uzytkownik ADD UNIQUE (email);
+ALTER TABLE Uzytkownik ADD UNIQUE (login);
+ALTER TABLE MojeCele ADD UNIQUE (Uzytkownik_idUzytkownik);
+
+
+
+////////////////////////////////////////////////

@@ -87,4 +87,50 @@ function showHideaddMyProductForm()
     }
 }
 
+function showHideDiv10()
+{
+    if(document.getElementById("showDiv10").style.display=="none")
+        document.getElementById("showDiv10").style.display="block";
+    else
+    {
+        document.getElementById("showDiv10").style.display="none";
+    }
+}
 
+function showHideDiv11()
+{
+    if(document.getElementById("showDiv11").style.display=="none")
+        document.getElementById("showDiv11").style.display="block";
+    else
+    {
+        document.getElementById("showDiv11").style.display="none";
+    }
+}
+
+function showHideDiv12()
+{
+    if(document.getElementById("showDiv12").style.display=="none")
+        document.getElementById("showDiv12").style.display="block";
+    else
+    {
+        document.getElementById("showDiv12").style.display="none";
+    }
+}
+function showHideDiv13()
+{
+    if(document.getElementById("showDiv13").style.display=="none")
+        document.getElementById("showDiv13").style.display="block";
+    else
+    {
+        document.getElementById("showDiv13").style.display="none";
+    }
+}
+function showHideDiv14()
+{
+    if(document.getElementById("showDiv14").style.display=="block")
+        document.getElementById("showDiv14").style.display="none";
+    else
+    {
+        document.getElementById("showDiv14").style.display="block";
+    }
+}

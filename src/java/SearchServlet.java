@@ -65,7 +65,10 @@ public class SearchServlet extends HttpServlet {
 			resp.setContentType("text/html");
 			out.println("<HTML><HEAD><TITLE>");
 			out.println(":)");
-			out.println("</TITLE> <style>table, th, tr{border: 1px solid black;}</style> </HEAD><BODY>");
+			out.println("</TITLE>  "+
+					" <script src='script.js'></script>\n" +
+" <link rel='stylesheet' href='style.css' type='text/css' />"
+					  + "</HEAD><BODY>");
 			out.print("<table >");
 			for(TableObject row:tbObjArr)
 			{
@@ -75,6 +78,68 @@ public class SearchServlet extends HttpServlet {
 			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Przejdź do twojej strony</a></CENTER></H1>");
 			out.println("</BODY></HTML>");
 			}
+	}
+	public static void createTableFromTableObjectArrWithMealAdd(HttpServletResponse resp,ArrayList<TableObject> tbObjArr) throws IOException 
+	{
+		try (PrintWriter out = resp.getWriter()) {
+			resp.setContentType("text/html");
+			out.println("<HTML><HEAD><TITLE>");
+			out.println(":)");
+			out.println("</TITLE>"
+					  + " <script src='script.js'></script>\n" +
+" <link rel='stylesheet' href='style.css' type='text/css' />"
+					  +  "</HEAD><BODY>");
+			out.print("<table >");
+			for(TableObject row:tbObjArr)
+			{
+					out.print(row.showMeAsTableFragment());
+			}
+			out.println("</table>");
+			out.print("<form name='addMeal' id='addMeal' action=LoggedInServlet method= 'GET'>"+
+			"<input type='hidden' name='formName' value='addMeal'>"+"</br></br>"+
+				"Nazwa Posiłku:<input type='text' name='name' value ='Podaj Nazwę ' >  </br>"+
+				//"<input type='button' value ='Dodaj Produkt ' onclick='showHideDiv10()' >  </br>"+
+				
+				"<div id='showDiv10'  style='display: block;'>"+
+						"Produkt 1</br>"+
+						"id produktu</br><input type='number' name='id10' id='' value ='id'></br>"+
+						"waga produktu</br><input type='number' name='weight10' id='' value ='waga'></br>"+
+					  //"<input type='button' value ='Dodaj Produkt ' onclick='showHideDiv11()' >  </br>"+
+				"</div>"+
+				"<div id='showDiv11' >"+
+					  "Produkt 2</br>"+
+						"id produktu</br><input type='number' name='id11' id='' value ='id'></br>"+
+						"waga produktu</br><input type='number' name='weight11' id='' value ='waga'></br>"+
+					  	//"<input type='button' value ='Dodaj Produkt ' onclick='showHideDiv12()' >  </br>"+
+				"</div>"+
+				"<div id='showDiv12' >"+
+					  "Produkt 3</br>"+
+						"id produktu</br><input type='number' name='id12' id='' value ='id'></br>"+
+						"waga produktu</br><input type='number' name='weight12' id='' value ='waga'></br>"+
+						//"<input type='button' value ='Dodaj Produkt ' onclick='showHideDiv13()' >  </br>"+
+				"</div>"+
+				
+				"<div id='showDiv13' >"+
+					  "Produkt 4</br>"+
+						"id produktu</br><input type='number' name='id13' id='' value =''></br>"+
+						"waga produktu</br><input type='number' name='weight13' id='' value =''></br>"+
+						//"<input type='button' value ='Dodaj Produkt ' onclick='showHideDiv14()' >  </br>"+
+				"</div>"+
+				
+				"<div id='showDiv14' >"+
+					  "Produkt 5</br>"+
+						"id produktu</br><input type='number' name='id14' id='' value ='id'></br>"+
+						"waga produktu</br><input type='number' name='weight14' id='' value ='waga'></br>"+
+				"</div>"+
+				"<div style='clear:both;'></div>"+
+				"</br></br></br><input type='submit' name='addMyProductById' value='Dodaj Posilek' >"+
+			"</form>");
+			
+			
+			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Przejdź do twojej strony</a></CENTER></H1>");
+			out.println("</BODY></HTML>");
+			}
+		
 	}
 	private void searchProductByNameAsString(HttpServletRequest req,HttpServletResponse resp, String name)throws ServletException, IOException
 	{

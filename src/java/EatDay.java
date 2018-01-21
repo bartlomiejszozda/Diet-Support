@@ -29,7 +29,7 @@ public class EatDay implements TableObject{
 		String strTmp="<tr>";
 		for(MealPortion el:meals)
 		{
-			strTmp+="<th>"+el.getmeal().getname()+"</th>";
+			strTmp+="<th>"+date+"</th>"+"<th>"+el.getmeal().getname()+"</th>";
 		}
 		strTmp+="</tr>";
 		return strTmp;
