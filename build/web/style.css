@@ -1,0 +1,77 @@
+#logDiv
+{
+    display: none;
+}
+#regDiv
+{
+    display: none;
+}
+#searchProductByName
+{
+    display: none;
+}
+#searchMealByName
+{
+    display: none;
+}
+#searchMealByProduct
+{
+    display: none;
+}
+#searchMealByProduct
+{
+    display: none;
+}
+#showDiv
+{
+    display: none;
+}
+#showDiv2
+{
+    display: none;
+}
+#showDiv3
+{
+    display: none;
+}
+#showDiv4
+{
+    display: none;
+}
+#showDiv10
+{
+   
+    border: 1px solid black;
+    display: block;
+    float:left;
+}
+#showDiv11
+{
+   
+    border: 1px solid black;
+    display: block;
+    float:left;
+}
+#showDiv12
+{
+    
+    border: 1px solid black;
+    display: block;
+    float:left;
+}
+#showDiv13
+{
+    border: 1px solid black;
+    display: block;
+    float:left;
+}
+#showDiv14
+{
+    border: 1px solid black;
+    display: block;
+    float:left;
+}
+table,tr,th
+{
+    border: 1px solid black;
+}
