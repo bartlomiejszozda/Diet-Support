@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class UserServlets extends HttpServlet {
+public class UserServlet extends HttpServlet {
 	UserDB userdb=null;
 	@Override
    public void init(ServletConfig config) throws ServletException {
@@ -21,11 +21,15 @@ public class UserServlets extends HttpServlet {
    public void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
-		if (req.getParameter("regDiv") == null) {
+		if (req.getParameter("formName") .equals("logForm")) {
 			logIn(req, resp, req.getParameter("login"),req.getParameter("password"));
+			
 		}
-		else if (req.getParameter("logDiv") == null) {
+		else if (req.getParameter("formName").equals("regForm")) {
 			signUp(resp,req.getParameter("email"),req.getParameter("login"),req.getParameter("password"));
+		}
+		else if (req.getParameter("formName").equals("logOutForm")) {
+			logOut(req,resp);
 		}
    }
 	private boolean isSignedUp(String email, String login)
@@ -56,16 +60,26 @@ public class UserServlets extends HttpServlet {
 	{
 		if(loginPasswordCorrect(login,password))
 		{
+			
 			HttpSession session=req.getSession();  
 			session.setAttribute("login",login);
-			createResponseSite(resp,"Witaj!"+ login );
+			session.setAttribute("id",userdb.getIdByLogin(login));
+			createResponseSiteIndexLoggedIn(resp,"Witaj!"+ login );
 		}
 		else
 		{	
-			createResponseSite(resp,"email lub login zajęty","Wróć do strony głównej i spróbuj ponownie.");
+			createResponseSite(resp,"Błędny login lub hasło");
 		}
 	}
-	
+	private void logOut(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException
+	{
+		
+		HttpSession session=req.getSession(false);  
+      if(session!=null){   
+			session.invalidate();
+			createResponseSite(resp,"Wylogowano poprawnie" );
+		}
+	}
 	private void createResponseSite(HttpServletResponse resp,String str1,String str2,String str3) throws IOException 
 	{
 		try (PrintWriter out = resp.getWriter()) {
@@ -105,6 +119,46 @@ public class UserServlets extends HttpServlet {
 			out.println("</BODY></HTML>");
 			}
 	}
+	private void createResponseSiteIndexLoggedIn(HttpServletResponse resp,String str1,String str2,String str3) throws IOException 
+	{
+		try (PrintWriter out = resp.getWriter()) {
+			resp.setContentType("text/html");
+			out.println("<HTML><HEAD><TITLE>");
+			out.println(":)");
+			out.println("</TITLE></HEAD><BODY>");
+			out.println("<H1><CENTER> "+str1 +" </CENTER></H1>");
+			out.println("<H1><CENTER> "+str2 +" </CENTER></H1>");
+			out.println("<H1><CENTER> "+str3 +" </CENTER></H1>");
+			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Przejdź do twojej strony</a></CENTER></H1>");
+			out.println("</BODY></HTML>");
+			}
+	}
+	private void createResponseSiteIndexLoggedIn(HttpServletResponse resp,String str1,String str2) throws IOException 
+	{
+		try (PrintWriter out = resp.getWriter()) {
+			resp.setContentType("text/html");
+			out.println("<HTML><HEAD><TITLE>");
+			out.println(":)");
+			out.println("</TITLE></HEAD><BODY>");
+			out.println("<H1><CENTER> "+str1 +" </CENTER></H1>");
+			out.println("<H1><CENTER> "+str2 +" </CENTER></H1>");
+			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Przejdź do twojej strony</a></CENTER></H1>");
+			out.println("</BODY></HTML>");
+			}
+	}
+	private void createResponseSiteIndexLoggedIn(HttpServletResponse resp,String str1) throws IOException 
+	{
+		try (PrintWriter out = resp.getWriter()) {
+			resp.setContentType("text/html");
+			out.println("<HTML><HEAD><TITLE>");
+			out.println(":)");
+			out.println("</TITLE></HEAD><BODY>");
+			out.println("<H1><CENTER> "+str1 +" </CENTER></H1>");
+			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Przejdź do twojej strony</a></CENTER></H1>");
+			out.println("</BODY></HTML>");
+			}
+	}
+
 	/*
 	private void displayHTML(HttpServletResponse resp, String fn, String ln)
          throws ServletException, IOException {

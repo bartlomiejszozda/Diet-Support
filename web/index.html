@@ -2,28 +2,30 @@
 
 <html> 
 <head> 
- <title>UOFSIS 0.6: Registrar www Interface</title> 
+ <title>Bazy Danych</title> 
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
  <script src="script.js"></script>
  <link rel="stylesheet" href="style.css" type="text/css" />
 </head> 
 <body> 
-<h1>Nadzoruj swoją dietę z nami :)</h1>
+<h1>Nadzoruj swoją dietę</h1>
     <input type="button" name ="logButton" value ="Zaloguj się!" onClick="logIn()">
     <input type="button" name ="registerButton" value ="Zarejestruj się!" onClick="regIn()">
     <div id="logDiv">
         <form name="logForm" action=UserServlet method= "GET"> 
 <pre>
+<input type="hidden" name="formName" value="logForm">
 Login: <input type="text" name="login" value="">  
 Hasło: <input type="password" name="password" value=""> 
         </pre>
-            <input type="submit" name="request" value="submit">
+            <input type="submit" name="request" value="submit" >
         </form> 
     </div>
     
     <div id="regDiv" >
         <form name="regForm" action=UserServlet method= "GET"> 
 <pre>
+<input type="hidden" name="formName" value="regForm">
 Email: <input type="email" name="email" value="">    
 Login: <input type="text" name="login" value="">  
 Hasło: <input type="password" name="password" value=""> 
@@ -31,5 +33,26 @@ Hasło: <input type="password" name="password" value="">
             <input type="submit" name="request" value="submit"> 
         </form>  
     </div>
+    <div id="searchDiv" >
+        <input type="button" value ="Szukaj produktu według nazwy " onClick="showHideSearchForms(1)"></br>
+        <form name="searchProductByName" id="searchProductByName" action=SearchServlet method= "GET">     
+            <input type="hidden" name="formName" value="searchProductByName">
+            <input type="text" name="search" id="search1" value ="Podaj nazwę">
+            <input type="submit" name="searchProduct" value="submit"> 
+        </form>
+        <input type="button" value ="Szukaj posiłku według nazwy  " onClick="showHideSearchForms(2)"></br>
+        <form name="searchMealByName" id="searchMealByName" action=SearchServlet method= "GET">     
+            <input type="hidden" name="formName" value="searchMealByName">
+            <input type="text" name="search" id="search2" value ="Podaj nazwę" >
+            <input type="submit" name="searchProduct" value="submit"> 
+        </form>
+        <input type="button" value ="Szukaj posiłku według składnika " onClick="showHideSearchForms(3)"></br>
+        <form name="searchMealByProduct" id="searchMealByProduct" action=SearchServlet method= "GET">     
+            <input type="hidden" name="formName" value="searchMealByProduct">
+            <input type="text" name="search" id="search3" value ="Podaj nazwę">
+            <input type="submit" name="searchProduct" value="submit"> 
+        </form>
+    </div>
+    
 </body> 
 </html> 

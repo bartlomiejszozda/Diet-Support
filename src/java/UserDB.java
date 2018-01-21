@@ -23,6 +23,37 @@ public class UserDB{
  
         return conn;
     }
+	public HashMap<String,String> getIdByLogin(String login){
+		String SQL = "SELECT idUzytkownik FROM Uzytkownik "
+                + "WHERE login = ?";
+        try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, login);
+            ResultSet rs = pstmt.executeQuery();
+				HashMap<String,String> hashmap =null;
+				if(rs.next()){
+				hashmap = new HashMap<>();
+				hashmap.put("id",rs.getString("idUzytkownik"));}
+            return hashmap;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+		  return null;
+	}
+	public Integer getIntIdByLogin(String login){
+		String SQL = "SELECT idUzytkownik FROM Uzytkownik "
+                + "WHERE login = ?";
+        try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, login);
+            ResultSet rs = pstmt.executeQuery();
+				if(rs.next())
+            return rs.getInt("idUzytkownik");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+		  return null;
+	}
    public HashMap<String,String> findUserByEmail(String userEmail) {
         String SQL = "SELECT email,login FROM Uzytkownik "
                 + "WHERE email = ?";
@@ -86,7 +117,7 @@ public class UserDB{
 		String SQL = "INSERT INTO Uzytkownik (email,login,haslo) "
                 + "VALUES(?,?,?)";
 		try (Connection conn = connect();
-                PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+                PreparedStatement pstmt = conn.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS)) {
  
             pstmt.setString(1, userEmail);
             pstmt.setString(2, userLogin);
