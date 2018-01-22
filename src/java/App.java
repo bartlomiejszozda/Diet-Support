@@ -1,4 +1,4 @@
-
+/*
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -77,12 +77,6 @@ public class App{
             System.out.println(ex.getMessage());
         }
     }
-    
-    /*public static void main(String[] args) {
-        App app = new App();
-        app.connect();
-        System.out.println(app.getProductCount());
-        app.getProducts();
-        app.findProductById(2);
-    }*/
+
 }
+*/

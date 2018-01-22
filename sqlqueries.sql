@@ -628,7 +628,7 @@ INSERT INTO MojePosilki VALUES(1,1);
 INSERT INTO MojeProdukty VALUES(1,1);
 INSERT INTO MojeProdukty VALUES(1,2);
 
-INSERT INTO MojeCele VALUES(1,82.5,3000,150,400,91);
+INSERT INTO MojeCele VALUES(1,82.5,3000,150,400,91,1);
 
 
 
@@ -853,4 +853,58 @@ ALTER TABLE MojeCele ADD UNIQUE (Uzytkownik_idUzytkownik);
 
 
 
-////////////////////////////////////////////////
+////////////////////////////////////////////////komenda do JDBC 
+String SQL = "INSERT INTO DzienZywienia (Uzytkownik_idUzytkownik,kiedy) SELECT ?,?"+
+                 "WHERE NOT EXISTS (SELECT kiedy FROM DzienZywienia WHERE kiedy = ?);";
+				 
+				 //////////////////////////////////////
+				 
+				 
+				 
+				 
+drop view zjedzonednia;
+CREATE VIEW ZjedzoneDnia AS SELECT Uzytkownik_idUzytkownik as uID, kiedy, SUM(kcal) as kcal, SUM(bialko)as bialko , SUM(weglowodany)as weglowodany, SUM(tluszcze)as tluszcze FROM Produkt INNER JOIN Posilek_has_Produkt ON idProdukt=Produkt_idProdukt INNER JOIN Posilek ON Posilek_idPosilek = idPosilek INNER JOIN DzienZywienia_has_Posilek as dzhp ON dzhp.Posilek_idPosilek=Posilek.idPosilek
+INNER JOIN DzienZywienia ON DzienZywienia_idDzienZywienia=idDzienZywienia group by kiedy,Uzytkownik_idUzytkownik order by kiedy;
+select * from zjedzonednia where kiedy='2018-01-14';
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION sprawdzProdukt() RETURNS trigger AS $sprawdzProdukt$
+    BEGIN
+        IF NEW.nazwa IS NULL THEN
+            RAISE EXCEPTION 'nazwa nie moze byc null';
+        END IF;
+        IF NEW.kcal IS NULL THEN
+            RAISE EXCEPTION 'kcal nie moze byc null';
+        END IF;
+        IF NEW.bialko IS NULL THEN
+            RAISE EXCEPTION 'bialko nie moze byc null';
+        END IF;
+        IF NEW.weglowodany IS NULL THEN
+            RAISE EXCEPTION 'weglowodany nie moga byc null';
+        END IF;
+        IF NEW.tluszcze IS NULL THEN
+            RAISE EXCEPTION 'tluszcze nie moga byc null';
+        END IF;
+
+        IF NEW.kcal>10000  THEN
+            RAISE EXCEPTION 'kcal nie moze byc null';
+        END IF;
+        IF NEW.bialko >10000 THEN
+            RAISE EXCEPTION 'bialko nie moze byc null';
+        END IF;
+        IF NEW.weglowodany >10000 THEN
+            RAISE EXCEPTION 'weglowodany nie moga byc null';
+        END IF;
+        IF NEW.tluszcze >10000 THEN
+            RAISE EXCEPTION 'tluszcze nie moga byc null';
+        END IF;
+
+    END;
+$sprawdzProdukt$ LANGUAGE plpgsql;
+
+CREATE TRIGGER sprawdzProdukt BEFORE INSERT OR UPDATE ON Produkt
+    FOR EACH ROW EXECUTE PROCEDURE sprawdzProdukt();

@@ -23,59 +23,78 @@ public class LoggedInServlet extends HttpServlet {
 
 	@Override
    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
+			throws ServletException, IOException {
+		if(isLoggedIn(req))
+		{
+			resp.setCharacterEncoding("UTF-8");
 
-		if (req.getParameter("formName").equals("logOutForm")) {
-			logOut(req,resp);
+			if (req.getParameter("formName").equals("logOutForm")) {
+				logOut(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addProductByName")) {
+				addProductByName(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showAllProducts")) {
+				showAllProducts(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showAllMeals")) {
+				showAllMeals(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showMyProducts")) {
+				showMyProducts(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showMyMeals")) {
+				showMyMeals(req,resp);
+			}
+			else if (req.getParameter("formName").equals("setYourGoals")) {
+				setYourGoals(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addYourWeight")) {
+				addYourWeight(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addMyProduct")) {
+				addMyProduct(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addMyMealById")) {
+				addMyMealById(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addMyProductById")) {
+				addMyProductById(req,resp);
+			}
+			else if (req.getParameter("formName").equals("deleteMyMealById")) {
+				deleteMyMealById(req,resp);
+			}
+			else if (req.getParameter("formName").equals("deleteMyProductById")) {
+				deleteMyProductById(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addMealButton")) {
+				addMealButton(req,resp);
+			}
+			else if (req.getParameter("formName").equals("addMeal")) {
+				addMeal(req,resp);
+			}
+			else if (req.getParameter("formName").equals("EatThisMeal")) {
+				eatThisMeal(req,resp);
+			}
+			else if (req.getParameter("formName").equals("EatThisProduct")) {
+				eatThisProduct(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showWeightHistory")) {
+				showWeightHistory(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showYourGoals")) {
+				showYourGoals(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showEatByDay")) {
+				showEatByDay(req,resp);
+			}
+			else if (req.getParameter("formName").equals("showEatHistory")) {
+				showEatHistory(req,resp);
+			}
 		}
-		else if (req.getParameter("formName").equals("addProductByName")) {
-			addProductByName(req,resp);
-		}
-		else if (req.getParameter("formName").equals("showAllProducts")) {
-			showAllProducts(req,resp);
-		}
-		else if (req.getParameter("formName").equals("showAllMeals")) {
-			showAllMeals(req,resp);
-		}
-		else if (req.getParameter("formName").equals("showMyProducts")) {
-			showMyProducts(req,resp);
-		}
-		else if (req.getParameter("formName").equals("showMyMeals")) {
-			showMyMeals(req,resp);
-		}
-		else if (req.getParameter("formName").equals("setYourGoals")) {
-			setYourGoals(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addYourWeight")) {
-			addYourWeight(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addMyProduct")) {
-			addMyProduct(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addMyMealById")) {
-			addMyMealById(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addMyProductById")) {
-			addMyProductById(req,resp);
-		}
-		else if (req.getParameter("formName").equals("deleteMyMealById")) {
-			deleteMyMealById(req,resp);
-		}
-		else if (req.getParameter("formName").equals("deleteMyProductById")) {
-			deleteMyProductById(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addMealButton")) {
-			addMealButton(req,resp);
-		}
-		else if (req.getParameter("formName").equals("addMeal")) {
-			addMeal(req,resp);
-		}
-		else if (req.getParameter("formName").equals("EatThisMeal")) {
-			eatThisMeal(req,resp);
-		}
-		else if (req.getParameter("formName").equals("EatThisProduct")) {
-			eatThisProduct(req,resp);
+		else
+		{
+			createResponseSiteIndex(resp,"Musisz byc zalogowany");
 		}
    }
 
@@ -138,16 +157,25 @@ public class LoggedInServlet extends HttpServlet {
 	}
 	private void addYourWeight(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
+		try{
+			
+		
 		if(isLoggedIn(req))
 		{
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
-		java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDate = new java.sql.Date(format.parse(req.getParameter("date")).getTime());
 		SearchServlet.createTableFromTableObjectArr(resp,loggedinDB.addYourWeight(Integer.valueOf(hashTmp.get("id")),Double.parseDouble(req.getParameter("weight")), sqlDate));
 
 		}
 		else
 		{
 			createResponseSiteIndex(resp,"Musisz być zalogowany");
+		}
+	}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
 		}
 	}
 	private void addMyProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -182,7 +210,7 @@ public class LoggedInServlet extends HttpServlet {
 		}
 
 	}
-	public boolean addMyMealById(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	private boolean addMyMealById(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
 		if( loggedinDB.addMyMealById(Integer.valueOf(hashTmp.get("id")),Integer.valueOf(req.getParameter("id"))))
@@ -197,7 +225,7 @@ public class LoggedInServlet extends HttpServlet {
 		}
 		
 	}
-	public boolean deleteMyMealById(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	private boolean deleteMyMealById(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
 		if( loggedinDB.deleteMyMealById(Integer.valueOf(hashTmp.get("id")),Integer.valueOf(req.getParameter("id"))))
@@ -212,7 +240,7 @@ public class LoggedInServlet extends HttpServlet {
 		}
 		
 	}
-	public boolean deleteMyProductById(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	private boolean deleteMyProductById(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
 		if( loggedinDB.deleteMyProductById(Integer.valueOf(hashTmp.get("id")),Integer.valueOf(req.getParameter("id"))))
@@ -227,7 +255,7 @@ public class LoggedInServlet extends HttpServlet {
 		}
 		
 	}
-	public Integer addMeal(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	private Integer addMeal(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		ArrayList<Double> weightArr=new ArrayList<>();
 		ArrayList<Integer> idArr=new ArrayList<>();
@@ -269,7 +297,7 @@ public class LoggedInServlet extends HttpServlet {
 		}
 		
 	}
-	public boolean eatThisMeal(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	private boolean eatThisMeal(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		try{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -293,14 +321,14 @@ public class LoggedInServlet extends HttpServlet {
 			return false;
 		}
 	}
-public boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException
+private boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		ArrayList<Integer> idArr= new ArrayList<>();
 		ArrayList<Double> weightArr= new ArrayList<>();
 		idArr.add(Integer.valueOf(req.getParameter("id")));
 		weightArr.add(Double.parseDouble(req.getParameter("weight")));
 		Integer Primarykey;
-		if((Primarykey= loggedinDB.addMeal("Produkt: "+req.getParameter("name"), idArr, weightArr))!=0)
+		if((Primarykey= loggedinDB.addMeal("Produkt"+req.getParameter("name"), idArr, weightArr))!=0)
 		{
 			try{
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -324,9 +352,21 @@ public boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp) 
 				return false;
 			}
 		}
-		createResponseSite(resp,"addMeal nie zatrybiło błąd");
+		createResponseSite(resp,"błąd");
 		return false;
 	}
+	private void showWeightHistory(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SearchServlet.createTableFromTableObjectArr(resp,loggedinDB.showWeightHistory(Integer.valueOf(hashTmp.get("id"))) );
+		 
+	}
+	private void showYourGoals(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		createResponseSite(resp,loggedinDB.showYourGoals(Integer.valueOf(hashTmp.get("id")) ));
+	}
+
 	private boolean isLoggedIn(HttpServletRequest req)//isnt tested
 	{
 		HttpSession session=req.getSession(false);  
@@ -334,6 +374,43 @@ public boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp) 
 			return true;
 		}
 		return false;
+	}
+	private void showEatByDay(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+	try{
+		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDate = new java.sql.Date(format.parse(req.getParameter("date")).getTime());
+		createResponseSite(resp,loggedinDB.showEatByDay(Integer.valueOf(hashTmp.get("id")), sqlDate));
+		}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
+		}
+	}
+	private void showEatHistory(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+		try{
+		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDateFrom = new java.sql.Date(format.parse(req.getParameter("dateFrom")).getTime());
+		java.sql.Date sqlDateTo = new java.sql.Date(format.parse(req.getParameter("dateTo")).getTime());
+		Long DateFromms=format.parse(req.getParameter("dateFrom")).getTime();
+		Long DateToms=format.parse(req.getParameter("dateTo")).getTime();
+		Long Datems=DateFromms;
+		String output="<table style=>";
+		while(Datems<=DateToms )
+		{
+			output+=loggedinDB.showEatByDay(Integer.valueOf(hashTmp.get("id")), new java.sql.Date(Datems));
+			Datems+=(1000*60*60*24);
+		}
+		output+="</table>";
+		createResponseSite(resp,output);
+		}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
+		}
 	}
 	private void logOut(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException
 	{
@@ -378,7 +455,10 @@ public boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp) 
 			resp.setContentType("text/html");
 			out.println("<HTML><HEAD><TITLE>");
 			out.println(":)");
-			out.println("</TITLE></HEAD><BODY>");
+			out.println("</TITLE>"
+					  + " <script src='script.js'></script>\n" +
+" <link rel='stylesheet' href='style.css' type='text/css' />"+
+					   "</HEAD><BODY>");
 			out.println("<H1><CENTER> "+str1 +" </CENTER></H1>");
 			out.println("<H1><CENTER> <a href='indexLoggedIn.html'>Wróć</a></CENTER></H1>");
 			out.println("</BODY></HTML>");

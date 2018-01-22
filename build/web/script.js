@@ -134,3 +134,13 @@ function showHideDiv14()
         document.getElementById("showDiv14").style.display="block";
     }
 }
+
+function showHideDiv6()
+{
+    if(document.getElementById("showDiv6").style.display=="block")
+        document.getElementById("showDiv6").style.display="none";
+    else
+    {
+        document.getElementById("showDiv6").style.display="block";
+    }
+}

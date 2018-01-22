@@ -17,19 +17,19 @@
         </form> 
     </div>
     <div id="searchDiv" >
-        <input type="button" value ="Szukaj produktu według nazwy " onClick="showHideSearchForms(1)">
+        <input type="button" value ="Szukaj produktu według nazwy " onClick="showHideSearchForms(1)"></br>
         <form name="searchProductByName" id="searchProductByName" action=SearchServlet method= "GET">     
             <input type="hidden" name="formName" value="searchProductByName">
             <input type="text" name="search" id="search1" value ="Podaj nazwę">
             <input type="submit" name="searchProduct" value="submit"> 
         </form>
-        <input type="button" value ="Szukaj posiłku według nazwy  " onClick="showHideSearchForms(2)">
+        <input type="button" value ="Szukaj posiłku według nazwy  " onClick="showHideSearchForms(2)"></br>
         <form name="searchMealByName" id="searchMealByName" action=SearchServlet method= "GET">     
             <input type="hidden" name="formName" value="searchMealByName">
             <input type="text" name="search" id="search2" value ="Podaj nazwę" >
             <input type="submit" name="searchProduct" value="submit"> 
         </form>
-        <input type="button" value ="Szukaj posiłku według składnika " onClick="showHideSearchForms(3)">
+        <input type="button" value ="Szukaj posiłku według składnika " onClick="showHideSearchForms(3)"></br>
         <form name="searchMealByProduct" id="searchMealByProduct" action=SearchServlet method= "GET">     
             <input type="hidden" name="formName" value="searchMealByProduct">
             <input type="text" name="search" id="search3" value ="Podaj nazwę">
@@ -62,6 +62,10 @@
                 <input type="submit" name="addMyProduct" value="submit"> 
             </form>
         </div>
+        <form name="addMealButton" id="addMealButton" action=LoggedInServlet method= "GET">     
+            <input type="hidden" name="formName" value="addMealButton">
+            <input type="submit" name="addMealButton" value="Dodaj Posiłek"> 
+        </form>
         <form name="showMyProducts " style="display: inline;" id="showMyProducts" action=LoggedInServlet method= "GET">     
             <input type="hidden" name="formName" value="showMyProducts">
             <input type="submit" name="searchProduct" value="Pokaż ulubione produkty"> 
@@ -80,14 +84,11 @@
             <input type="hidden" name="formName" value="showAllMeals">
             <input type="submit" name="searchProduct" value="Pokaż wszystkie posiłki"> 
         </form>
-        <form name="addMealButton" id="addMealButton" action=LoggedInServlet method= "GET">     
-            <input type="hidden" name="formName" value="addMealButton">
-            <input type="submit" name="addMealButton" value="Dodaj Posiłek"> 
-        </form>
-        <input type="button" value ="Ustaw swoje cele " onclick="showHidesetYourGoals()" ></br> 
+         <div></div>
+        <input type="button" value ="Ustaw swoje cele " onclick="showHidesetYourGoals()" style="float: left">
         <div id="showDiv2" >
         <form name="setYourGoals" id="setYourGoals" action=LoggedInServlet method= "GET">     
-            <input type="hidden" name="formName" value="setYourGoals">
+            <input type="hidden" name="formName" value="setYourGoals"></br></br>
             Podaj wagę: <input type="text" name="weight" id="" value =""></br>
             kilo kalorie: <input type="number" name="kcal" id="" value ="" step="0.01"></br>
             bialko: <input type="number" name="proteins" id="" value ="" step="0.01"></br>
@@ -98,15 +99,44 @@
         </form>
         </div>
         
-        <input type="button" value ="Zapisz swoją wagę " onclick="showHideaddYourWeightForm()" >  </br> 
-        <div id="showDiv3" >
+        <form name="showYourGoals" id="showYourGoals" action=LoggedInServlet method= "GET" style="float: left">     
+            <input type="hidden" name="formName" value="showYourGoals">
+            <input type="submit" name="showYourGoals" value="Pokaż cele"> 
+        </form>
+        <div style="clear: both"></div>        
+        <input type="button" value ="Zapisz swoją wagę " onclick="showHideaddYourWeightForm()" style="float: left">
+        <div id="showDiv3"  >
         <form name="addYourWeight" id="addYourWeight" action=LoggedInServlet method= "GET">     
             <input type="hidden" name="formName" value="addYourWeight">
             Zapisz Swoją wagę: <input type="text" name="weight" id="" value ="">
+            Kiedy: <input type='date' name='date'>
             <input type="submit" name="addYourWeight" value="Ustaw"> 
         </form>
-        </div>
-       
+             
 
+        </div>
+        <div style="float: left">
+        <form name="showWeightHistory" id="showWeightHistory" action=LoggedInServlet method= "GET" style="float: left">     
+            <input type="hidden" name="formName" value="showWeightHistory">
+            <input type="submit" name="showWeightHistory" value="Pokaż historię wagi"> </br>
+        </form>
+        </div>
+        <div style='clear:both'></div>
+        <input type="button" value ="Pokaż ile zjadłem dnia: " onclick="showHideDiv6()" style="inline">
+        <div id="showDiv6" style='display: none'>
+        <form name=" showEatByDay" id=" showEatByDay" action=LoggedInServlet method= "GET">     
+            <input type="hidden" name="formName" value="showEatByDay">
+            Kiedy: <input type='date' name='date'>
+            <input type="submit" name=" showEatByDay" value="Pokaz"> 
+        </form>
+        <form name="showEatHistory" id="showWeightHistory" action=LoggedInServlet method= "GET" style="float: left">     
+            <input type="hidden" name="formName" value="showEatHistory">
+            Od: <input type='date' name='dateFrom'>
+            Do: <input type='date' name='dateTo'>
+            <input type="submit" name="showEatHistory" value="Pokaż historię jedzenia"> </br>
+        </form>
+        </div  >
+        
+       
 </body> 
 </html> 

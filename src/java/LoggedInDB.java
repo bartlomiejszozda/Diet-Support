@@ -16,9 +16,9 @@ public class LoggedInDB{
    private final String url = "jdbc:postgresql://horton.elephantsql.com:5432/jsiobneg";
    private final String user = "jsiobneg";
    private final String password = "58gEk-EzfB-T-SM14iQzoMy_pKz4GQZg";
- 
+ Connection conn = null;
    public Connection connect() {
-        Connection conn = null;
+        
         try {
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
@@ -28,7 +28,15 @@ public class LoggedInDB{
 		  
         return conn;
     }
-
+	
+protected void finalize() throws Throwable  
+{  
+    try { conn.close(); } 
+    catch (SQLException e) { 
+        e.printStackTrace();
+    }
+    super.finalize();  
+}  
 
 	public ArrayList<TableObject> addProductByName(String productName,Double kcal, Double proteins, Double carbo, Double fat)
 	{
@@ -463,10 +471,74 @@ public Integer getDzienZywieniaKeyByDate(java.sql.Date sqlDate)
 		}
 	}
 
-public boolean showEatHistory(Integer userId, Integer mealId, Double weight, java.sql.Date sqlDate)
-	{
-		return false;
+
+public ArrayList<TableObject> showWeightHistory(Integer userId)
+{
+		String SQL = "SELECT * FROM MasaCiala WHERE Uzytkownik_idUzytkownik = ? ORDER BY kiedy";
+		
+		ArrayList<TableObject> output = new ArrayList<>();
+		try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				pstmt.setInt(1,userId);
+            ResultSet rs = pstmt.executeQuery();
+				while(rs.next()){
+					Weight tmp= new Weight(rs.getInt("Uzytkownik_idUzytkownik"),
+							  rs.getDouble("masa"),rs.getDate("kiedy"));
+					
+					output.add(tmp);
+					}
+            return output;
+			} catch (SQLException ex) {
+				 System.out.println(ex.getMessage());
+			}
+			return output;
+
  }
+public String showYourGoals(Integer userId)
+{
+		String SQL = "SELECT * FROM MojeCele WHERE Uzytkownik_idUzytkownik = ?";
+		String output="";
+		try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				pstmt.setInt(1,userId);
+            ResultSet rs = pstmt.executeQuery();
+				if(rs.next()){
+					output+="Waga: "+rs.getString("Waga")+"</br>"+
+							  "kcal: "+rs.getString("kcal")+"</br>"+
+							  "bialko: "+rs.getString("bialko")+"</br>"+
+							  "weglowodany: "+rs.getString("weglowodany")+"</br>"+
+							  "tluszcze: "+rs.getString("tluszcze")+"</br>";
+				}
+            return output;
+			} catch (SQLException ex) {
+				 System.out.println(ex.getMessage());
+			}
+			return output;
+
+ }
+public String showEatByDay(Integer userId, java.sql.Date sqlDate)
+{
+		String SQL = "SELECT * FROM ZjedzoneDnia WHERE kiedy = ? and uID=?";
+		String output="";
+		try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				pstmt.setDate(1,sqlDate);
+				pstmt.setInt(2,userId);
+            ResultSet rs = pstmt.executeQuery();
+				if(rs.next()){
+					output+=
+							  "<tr><th>"+rs.getString("kiedy")+"</th>"
+							  + "<th> kcal: "+rs.getString("kcal")+"</th>"+
+							  "<th> bialko: "+rs.getString("bialko")+"</th>"+
+							  "<th> weglowodany: "+rs.getString("weglowodany")+"</th>"+
+							  "<th> tluszcze: "+rs.getString("tluszcze")+"</tr>";
+				}
+            return output;
+			} catch (SQLException ex) {
+				 System.out.println(ex.getMessage());
+			}
+			return output;
+}
 
 }
 

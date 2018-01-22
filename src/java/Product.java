@@ -37,6 +37,7 @@ public class Product  implements TableObject{
 						"<input type='number' name='id' id='' value ="+id+"></br>"+
 						  "<input type='number' name='name' id='' value ="+name+"></br>"+
 				"</div>"+
+						  "zjedz to!"+
 					"<br><input type='number' name='weight' id='' value ='' style='float:right' placeholder='podaj wagę' step='0.01'>"+
 						  "<div style='clear: both'><div>"+
 						   "<input type='date' name='date' style='float: left'>"+
