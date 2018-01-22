@@ -208,6 +208,7 @@ protected void finalize() throws Throwable
 				pstmt.setDouble(5, fat);
 				pstmt.setDouble(6, userId);
 				int affectedRows = pstmt.executeUpdate();
+				/*
 				if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
                     if (rs.next()) {
@@ -217,7 +218,7 @@ protected void finalize() throws Throwable
                     System.out.println(ex.getMessage());
                 }
             }
-				
+				*/
 				goalArr=new ArrayList<>();
 				goalArr.add(new Goal(id,weight,kcal,proteins,carbo,fat));
 				
@@ -303,6 +304,7 @@ protected void finalize() throws Throwable
         }
 		
 	}
+
 	public boolean addMyProductById(Integer userId,Integer productId)
 	{
 
