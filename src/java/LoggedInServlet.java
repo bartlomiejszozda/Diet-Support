@@ -91,6 +91,9 @@ public class LoggedInServlet extends HttpServlet {
 			else if (req.getParameter("formName").equals("showEatHistory")) {
 				showEatHistory(req,resp);
 			}
+			else if (req.getParameter("formName").equals("showEatWeightHistory")) {
+				showEatWeightHistory(req,resp);
+			}
 		}
 		else
 		{
@@ -381,15 +384,66 @@ private boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp)
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.sql.Date sqlDate = new java.sql.Date(format.parse(req.getParameter("date")).getTime());
-		createResponseSite(resp,loggedinDB.showEatByDay(Integer.valueOf(hashTmp.get("id")), sqlDate));
+		createResponseSite(resp,("<table style=''>"+loggedinDB.showEatByDay(Integer.valueOf(hashTmp.get("id")), sqlDate)+"</table>"));
 		}
 		catch(ParseException pe)
 		{
 			System.out.println(pe.getMessage());
 		}
 	}
+	
 	private void showEatHistory(HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
+			try{
+				HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDateFrom = new java.sql.Date(format.parse(req.getParameter("dateFrom")).getTime());
+		java.sql.Date sqlDateTo = new java.sql.Date(format.parse(req.getParameter("dateTo")).getTime());
+		createResponseSite(resp,("<table style=''>"+loggedinDB.showEatHistory(Integer.valueOf(hashTmp.get("id")), sqlDateFrom, sqlDateTo)+"</table>"));
+		}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
+		}
+		
+		/*
+		try{
+		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDateFrom = new java.sql.Date(format.parse(req.getParameter("dateFrom")).getTime());
+		java.sql.Date sqlDateTo = new java.sql.Date(format.parse(req.getParameter("dateTo")).getTime());
+		Long DateFromms=format.parse(req.getParameter("dateFrom")).getTime();
+		Long DateToms=format.parse(req.getParameter("dateTo")).getTime();
+		Long Datems=DateFromms;
+		String output="<table style=''>";
+		while(Datems<=DateToms )
+		{
+			output+=loggedinDB.showEatByDay(Integer.valueOf(hashTmp.get("id")), new java.sql.Date(Datems));
+			Datems+=(1000*60*60*24);
+		}
+		output+="</table>";
+		createResponseSite(resp,output);
+		}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
+		}*/
+	}
+		private void 	showEatWeightHistory(HttpServletRequest req, HttpServletResponse resp) throws IOException
+	{
+			try{
+				HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDateFrom = new java.sql.Date(format.parse(req.getParameter("dateFrom")).getTime());
+		java.sql.Date sqlDateTo = new java.sql.Date(format.parse(req.getParameter("dateTo")).getTime());
+		createResponseSite(resp,("<table style=''>"+loggedinDB.showEatWeightHistory(Integer.valueOf(hashTmp.get("id")), sqlDateFrom, sqlDateTo)+"</table>"));
+		}
+		catch(ParseException pe)
+		{
+			System.out.println(pe.getMessage());
+		}
+		
+		/*
 		try{
 		HashMap<String,String> hashTmp=(HashMap<String,String>)req.getSession(false).getAttribute("id");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -410,7 +464,7 @@ private boolean eatThisProduct(HttpServletRequest req, HttpServletResponse resp)
 		catch(ParseException pe)
 		{
 			System.out.println(pe.getMessage());
-		}
+		}*/
 	}
 	private void logOut(HttpServletRequest req,HttpServletResponse resp)throws ServletException, IOException
 	{

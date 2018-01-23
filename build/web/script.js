@@ -144,3 +144,88 @@ function showHideDiv6()
         document.getElementById("showDiv6").style.display="block";
     }
 }
+function showHideDiv7()
+{
+    var currentTime = new Date();
+    
+    if(document.getElementById("showDiv7").style.display=="block")
+        document.getElementById("showDiv7").style.display="none";
+    else
+    {
+        document.getElementById("showDiv7").style.display="block";
+    }
+
+}
+function showHideDiv8()
+{
+    if(document.getElementById("showDiv8").style.display=="block")
+        document.getElementById("showDiv8").style.display="none";
+    else
+    {
+        document.getElementById("showDiv8").style.display="block";
+    }
+}
+function hideNavDivs()
+{
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+var list = document.getElementsByClassName('actualDate');
+var n;
+for (n = 0; n < list.length; ++n) {
+    list[n].value=today;
+}
+
+    var monthago = now.getFullYear()+"-"+(month)+"-"+(day) ;
+var list = document.getElementsByClassName('monthAgo');
+var n;
+for (n = 0; n < list.length; ++n) {
+    list[n].value='2018-01-01';
+}
+    document.getElementById("Products").style.display="none";
+    document.getElementById("Meals").style.display="none";
+    document.getElementById("Favourites").style.display="none";
+    document.getElementById("My").style.display="none";
+    document.getElementById("History").style.display="none";
+    
+    
+}
+function Products()
+{
+    hideNavDivs();
+    document.getElementById("Products").style.display="block";
+
+}
+function Meals()
+{
+    hideNavDivs();
+    document.getElementById("Meals").style.display="block";
+
+}
+function Favourites()
+{
+    hideNavDivs();
+    document.getElementById("Favourites").style.display="block";
+
+}
+function My()
+{
+    hideNavDivs();
+    document.getElementById("My").style.display="block";
+
+}
+function History()
+{
+    hideNavDivs();
+    document.getElementById("History").style.display="block";
+
+}
+
+function insertDate()
+{
+
+
+
+}

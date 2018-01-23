@@ -1,3 +1,8 @@
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Product  implements TableObject{
 
 	private Integer id;
@@ -10,6 +15,8 @@ public class Product  implements TableObject{
 	private String addAmountButton;
 	Product(Integer id,String name,Double kcal,Double proteins,Double carbohydrates,Double fat)
 	{
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
 		this.id=id;
 		this.name=name;
 		this.kcal=kcal;
@@ -35,12 +42,12 @@ public class Product  implements TableObject{
 						  "<form name='EatThisProduct' id='EatThisProduct' action=LoggedInServlet method= 'GET'>"+
                 "<input type='hidden' name='formName' value='EatThisProduct'>"+
 						"<input type='number' name='id' id='' value ="+id+"></br>"+
-						  "<input type='number' name='name' id='' value ="+name+"></br>"+
+						  "<input type='text' name='name' id='' value ="+name+"></br>"+
 				"</div>"+
-						  "zjedz to!"+
+						  "zjedz mnie!"+
 					"<br><input type='number' name='weight' id='' value ='' style='float:right' placeholder='podaj wagę' step='0.01'>"+
 						  "<div style='clear: both'><div>"+
-						   "<input type='date' name='date' style='float: left'>"+
+						   "<input type='date' name='date' style='float: left' value='" +dateFormat.format(date) + "'>"+
                 "<input type='submit' name='EatThisProduct' value='Zjedz' style='float: left'>"+
             "</form>";
 	}

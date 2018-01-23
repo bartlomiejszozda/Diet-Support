@@ -258,7 +258,7 @@ protected void finalize() throws Throwable
 				return null;
         }
 	}
-		public ArrayList<TableObject> addMyProduct(Integer userId,String productName,Double kcal, Double proteins, Double carbo, Double fat)
+		public ArrayList<TableObject> addMyProductByServer(Integer userId,String productName,Double kcal, Double proteins, Double carbo, Double fat)
 	{
 		String SQL = "INSERT INTO Produkt (nazwa,kcal,bialko,weglowodany,tluszcze) "
                 + "VALUES(?,?,?,?,?)";
@@ -297,6 +297,33 @@ protected void finalize() throws Throwable
 				productArr=new ArrayList<>();
 				productArr.add(new Product(id,productName,kcal,proteins,carbo,fat));
 				
+				return productArr;
+		} catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+				return null;
+        }
+		
+	}
+	public ArrayList<TableObject> addMyProduct(Integer userId,String productName,Double kcal, Double proteins, Double carbo, Double fat)
+	{
+		String SQL = "select * from dodajMojProdukt(?,?,?::numeric,?::numeric,?::numeric,?::numeric)";
+		ArrayList<TableObject> productArr=new ArrayList<>();
+		try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				int id=0;
+				pstmt.setInt(1, userId);
+            pstmt.setString(2, productName);
+            pstmt.setDouble(3, kcal);
+				pstmt.setDouble(4, proteins);
+				pstmt.setDouble(5, carbo);
+				pstmt.setDouble(6, fat);
+				//ResultSet rs
+		
+				ResultSet rs=pstmt.executeQuery();
+				if(rs.next())
+					id=rs.getInt("idprod");
+				productArr=new ArrayList<>();
+				productArr.add(new Product(id,productName,kcal,proteins,carbo,fat));
 				return productArr;
 		} catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -402,11 +429,12 @@ protected void finalize() throws Throwable
 								 pstmt2.setInt(1, idArr.get(i));
 								 pstmt2.setInt(2, id);
 								 pstmt2.setDouble(3, weightArr.get(i));
-								 
+								  
 								 pstmt2.executeUpdate();
+								 return id;
 								 } catch (SQLException ex) {
 								 System.out.println(ex.getMessage());
-								 return id;
+								return 0;
 									}	
 								}
 							 }
@@ -534,6 +562,66 @@ public String showEatByDay(Integer userId, java.sql.Date sqlDate)
 							  "<th> bialko: "+rs.getString("bialko")+"</th>"+
 							  "<th> weglowodany: "+rs.getString("weglowodany")+"</th>"+
 							  "<th> tluszcze: "+rs.getString("tluszcze")+"</tr>";
+				}
+            return output;
+			} catch (SQLException ex) {
+				 System.out.println(ex.getMessage());
+			}
+			return output;
+}
+public String showEatHistory(Integer userId, java.sql.Date sqlDateFrom ,java.sql.Date sqlDateTo)
+{
+		String SQL = "SELECT * FROM ZjedzoneDnia WHERE kiedy > ? and kiedy<=? and uID=?";
+		String output="";
+		try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				pstmt.setDate(1,sqlDateFrom);
+				pstmt.setDate(2,sqlDateTo);
+				pstmt.setInt(3,userId);
+            ResultSet rs = pstmt.executeQuery();
+								output+=	  "<tr><th> kiedy</th>"+
+							  "<th> kcal</th>"+
+							  "<th> bialko</th>"+
+							  "<th> weglowodany</th>"+
+							  "<th> tluszcze</tr>";
+				while(rs.next()){
+					output+=
+							  "<tr><th>"+rs.getString("kiedy")+"</th>"
+							  + "<th>"+rs.getString("kcal")+"</th>"+
+							  "<th>"+rs.getString("bialko")+"</th>"+
+							  "<th>"+rs.getString("weglowodany")+"</th>"+
+							  "<th>"+rs.getString("tluszcze")+"</tr>";
+				}
+            return output;
+			} catch (SQLException ex) {
+				 System.out.println(ex.getMessage());
+			}
+			return output;
+}
+public String showEatWeightHistory(Integer userId,java.sql.Date sqlDateFrom ,java.sql.Date sqlDateTo)
+{
+String SQL = "SELECT * FROM historiaZywieniaIWagi WHERE kiedy > ? and kiedy<=? and uID=?";
+		String output="";
+		try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+				pstmt.setDate(1,sqlDateFrom);
+				pstmt.setDate(2,sqlDateTo);
+				pstmt.setInt(3,userId);
+            ResultSet rs = pstmt.executeQuery();
+				output+="<tr><th> kiedy</th>"+	  
+						  "<th>Waga</th>"+
+							  "<th> kcal</th>"+
+							  "<th> bialko</th>"+
+							  "<th> weglowodany</th>"+
+							  "<th> tluszcze</tr>";
+				while(rs.next()){
+					output+=
+							  "<tr><th> "+rs.getString("kiedy")+"</th>"+
+							  "<th>"+rs.getString("Waga")+"kg</th>"+
+							  "<th> "+rs.getString("kcal")+"</th>"+
+							  "<th> "+rs.getString("bialko")+"</th>"+
+							  "<th> "+rs.getString("weglowodany")+"</th>"+
+							  "<th> "+rs.getString("tluszcze")+"</tr>";
 				}
             return output;
 			} catch (SQLException ex) {

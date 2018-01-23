@@ -33,26 +33,7 @@ Hasło: <input type="password" name="password" value="">
             <input type="submit" name="request" value="submit"> 
         </form>  
     </div>
-    <div id="searchDiv" >
-        <input type="button" value ="Szukaj produktu według nazwy " onClick="showHideSearchForms(1)"></br>
-        <form name="searchProductByName" id="searchProductByName" action=SearchServlet method= "GET">     
-            <input type="hidden" name="formName" value="searchProductByName">
-            <input type="text" name="search" id="search1" value ="Podaj nazwę">
-            <input type="submit" name="searchProduct" value="submit"> 
-        </form>
-        <input type="button" value ="Szukaj posiłku według nazwy  " onClick="showHideSearchForms(2)"></br>
-        <form name="searchMealByName" id="searchMealByName" action=SearchServlet method= "GET">     
-            <input type="hidden" name="formName" value="searchMealByName">
-            <input type="text" name="search" id="search2" value ="Podaj nazwę" >
-            <input type="submit" name="searchProduct" value="submit"> 
-        </form>
-        <input type="button" value ="Szukaj posiłku według składnika " onClick="showHideSearchForms(3)"></br>
-        <form name="searchMealByProduct" id="searchMealByProduct" action=SearchServlet method= "GET">     
-            <input type="hidden" name="formName" value="searchMealByProduct">
-            <input type="text" name="search" id="search3" value ="Podaj nazwę">
-            <input type="submit" name="searchProduct" value="submit"> 
-        </form>
-    </div>
+
     
 </body> 
 </html> 
